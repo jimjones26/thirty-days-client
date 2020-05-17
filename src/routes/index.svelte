@@ -1,24 +1,13 @@
 <script>
   import { goto, stores } from "@sapper/app";
+  import authStore from "../stores/auth-store";
 
   const { session } = stores();
 
-  let email = null;
+  let email = "test@test.com";
 
-  async function login() {
-    await fetch("http://localhost:5000/api/v1/users/login", {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email
-      })
-    });
-
-    //window.location.href = "profile";
+  async function submitForm() {
+    authStore.login(email);
   }
 </script>
 
@@ -29,8 +18,14 @@
 {#if $session.authenticated}
   <p>You are logged in as {$session.profile.name}</p>
 {:else}
-  <form>
-    <input type="text" bind:value={email} placeholder="Your Email" />
-    <button type="button" disabled={!email} on:click={login}>Log in</button>
-  </form>
+  <div>
+    {#if $authStore.emailSent}
+      email was sent
+    {:else}
+      <form on:submit|preventDefault={submitForm}>
+        <input type="text" bind:value={email} placeholder="Your Email" />
+        <button type="submit" disabled={!email}>Log in</button>
+      </form>
+    {/if}
+  </div>
 {/if}

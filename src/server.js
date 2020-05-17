@@ -1,17 +1,45 @@
-import sirv from 'sirv';
-import polka from 'polka';
-import compression from 'compression';
-import * as sapper from '@sapper/server';
+import sirv from "sirv";
+import polka from "polka";
+import compression from "compression";
+import * as sapper from "@sapper/server";
+
+import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
+
+import { guard } from "@beyonk/sapper-rbac";
+import routes from "./config/routes";
 
 const { PORT, NODE_ENV } = process.env;
-const dev = NODE_ENV === 'development';
+const dev = NODE_ENV === "development";
 
 polka() // You can also use Express
-	.use(
-		compression({ threshold: 0 }),
-		sirv('static', { dev }),
-		sapper.middleware()
-	)
-	.listen(PORT, err => {
-		if (err) console.log('error', err);
-	});
+  .use(
+    compression({ threshold: 0 }),
+    sirv("static", { dev }),
+    cookieParser(),
+    (req, res, next) => {
+      const token = req.cookies["access-token"];
+      const profile = token ? jwt.decode(token) : false;
+      const options = {
+        routes,
+        deny: () => {
+          res.writeHead(302, { Location: "/" });
+          return res.end();
+        },
+        grant: () => {
+          return sapper.middleware({
+            session: () => {
+              return {
+                authenticated: !!profile,
+                profile,
+              };
+            },
+          })(req, res, next);
+        },
+      };
+      return guard(req.path, profile, options);
+    }
+  )
+  .listen(PORT, (err) => {
+    if (err) console.log("error", err);
+  });

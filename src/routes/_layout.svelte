@@ -1,5 +1,4 @@
 <script>
-  import Nav from "../components/Nav.svelte";
   import routes from "../config/routes";
   import { guard } from "@beyonk/sapper-rbac";
   import { tick } from "svelte";
@@ -22,17 +21,8 @@
 </script>
 
 <style>
-  main {
-    position: relative;
-    max-width: 56em;
-    background-color: white;
-    padding: 2em;
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-</style>
 
-<Nav {segment} />
+</style>
 
 <main>
   <slot />

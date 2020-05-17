@@ -1,46 +1,36 @@
-<style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
-	}
+<script>
+  import { goto, stores } from "@sapper/app";
 
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
+  const { session } = stores();
 
-	figure {
-		margin: 0 0 1em 0;
-	}
+  let email = null;
 
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
+  async function login() {
+    await fetch("http://localhost:5000/api/v1/users/login", {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email
+      })
+    });
 
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
-</style>
+    //window.location.href = "profile";
+  }
+</script>
 
 <svelte:head>
-	<title>Sapper project template</title>
+  <title>30 Days</title>
 </svelte:head>
 
-<h1>Great success!</h1>
-
-<figure>
-	<img alt='Success Kid' src='successkid.jpg'>
-	<figcaption>Have fun with Sapper!</figcaption>
-</figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+{#if $session.authenticated}
+  <p>You are logged in as {$session.profile.name}</p>
+{:else}
+  <form>
+    <input type="text" bind:value={email} placeholder="Your Email" />
+    <button type="button" disabled={!email} on:click={login}>Log in</button>
+  </form>
+{/if}

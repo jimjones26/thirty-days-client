@@ -20,7 +20,7 @@
 {:else}
   <div>
     {#if $authStore.emailSent}
-      email was sent
+      email was sent. you can close this window
     {:else}
       <form on:submit|preventDefault={submitForm}>
         <input type="text" bind:value={email} placeholder="Your Email" />

@@ -16,7 +16,7 @@
 </svelte:head>
 
 {#if $session.authenticated}
-  <p>You are logged in as {$session.profile.name}</p>
+  <p>You are logged in as {$session.profile.firstName}</p>
 {:else}
   <div>
     {#if $authStore.emailSent}

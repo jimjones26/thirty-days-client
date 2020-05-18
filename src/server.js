@@ -18,7 +18,7 @@ polka() // You can also use Express
     sirv("static", { dev }),
     cookieParser(),
     (req, res, next) => {
-      const token = req.cookies["access-token"];
+      const token = req.cookies["accessToken"];
       const profile = token ? jwt.decode(token) : false;
       const options = {
         routes,

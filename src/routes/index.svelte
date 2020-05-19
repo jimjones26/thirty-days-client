@@ -14,7 +14,6 @@
 <svelte:head>
   <title>30 Days</title>
 </svelte:head>
-
 {#if $session.authenticated}
   <p>You are logged in as {$session.profile.firstName}</p>
 {:else}
@@ -29,3 +28,6 @@
     {/if}
   </div>
 {/if}
+{#if $authStore.error}{$authStore.message}{/if}
+{#if $session.profile.scope.includes('super')}WE HAVE A SUPER{/if}
+{#if $session.profile.scope.includes('admin')}WE HAVE AN ADMIN{/if}

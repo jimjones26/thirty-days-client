@@ -27,7 +27,7 @@ const customAuthStore = {
           return { ...currentState, loading: false, emailSent: true };
         });
       } else {
-        throw new Error();
+        throw new Error("User Not Found");
       }
     } catch (error) {
       authStore.update((currentState) => {
@@ -36,7 +36,7 @@ const customAuthStore = {
           loading: false,
           emailSent: false,
           error: true,
-          message: error,
+          message: error.message,
         };
       });
     }

@@ -17,8 +17,6 @@ export async function get(req, res, next) {
       { refreshToken }
     );
 
-    console.log("TOKENS: ", tokens);
-
     if (tokens.refreshToken && tokens.accessToken) {
       // valid tokens, create new cookies and redirect to
       // referring url

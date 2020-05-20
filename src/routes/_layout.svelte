@@ -8,7 +8,7 @@
 
   const options = {
     routes,
-    deny: () => goto("/")
+    deny: () => goto("/check-auth")
   };
 
   // Listen to the page store.

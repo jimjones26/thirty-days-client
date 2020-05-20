@@ -37,7 +37,7 @@ export async function get(req, res, next) {
         deleteRefreshCookie(),
         deleteAccessCookie(),
       ]);
-      let url = "/";
+      let url = "/login";
       let str = `Redirecting to ${url}`;
       res.writeHead(302, {
         Location: url,
@@ -46,6 +46,14 @@ export async function get(req, res, next) {
       });
       res.end(str);
     }
+  } else if (!refreshToken) {
+    let url = "/login";
+    let str = `Redirecting to ${url}`;
+    res.writeHead(302, {
+      Location: url,
+      "Content-Type": "text/plain",
+      "Content-Length": str.length,
+    });
+    res.end(str);
   }
-  res.end();
 }

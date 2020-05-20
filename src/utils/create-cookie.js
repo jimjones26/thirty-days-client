@@ -20,6 +20,30 @@ export const createRefreshCookie = (token) => {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     maxAge: 604800,
     path: "/",
+    sameSite: "strict",
+    domain: "localhost",
+  });
+};
+
+export const deleteRefreshCookie = () => {
+  return cookie.serialize("refreshToken", null, {
+    httpOnly: true,
+    secure: secure,
+    expires: "Thu, 01 Jan 1970 00:00:01 GMT",
+    maxAge: 0,
+    path: "/",
+    same: "strict",
+    domain: "localhost",
+  });
+};
+
+export const deleteAccessCookie = () => {
+  return cookie.serialize("accessToken", null, {
+    httpOnly: true,
+    secure: secure,
+    expires: "Thu, 01 Jan 1970 00:00:01 GMT",
+    maxAge: 0,
+    path: "/",
     same: "strict",
     domain: "localhost",
   });

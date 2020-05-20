@@ -23,7 +23,7 @@ polka() // You can also use Express
       const options = {
         routes,
         deny: () => {
-          res.writeHead(302, { Location: "/" });
+          res.writeHead(302, { Location: "/check-auth" });
           return res.end();
         },
         grant: () => {

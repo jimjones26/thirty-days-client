@@ -1,14 +1,32 @@
 import { Router } from "@beyonk/sapper-rbac";
+import scopes from "../utils/scopes";
+
+/* 
+SCOPES:
+- super (for me only)
+- admin (for the head of an org)
+- consultant (any business builder)
+- guest
+*/
 
 const routes = new Router()
   .unrestrict("/login")
   .unrestrict("/check-auth")
   .unrestrict("/verify-email")
   .unrestrict("/logout.*")
-  .restrict("/admin.*", ["admin"])
-  .restrict("/organisation.*", ["owner"])
-  .restrict("/profile.*", ["admin", "owner", "user"])
-  .restrict("/.*", ["admin", "owner", "user"])
+  .restrict("/admin.*", [scopes.adminScope])
+  .restrict("/profile.*", [
+    scopes.superScope,
+    scopes.adminScope,
+    scopes.consultantScope,
+    scopes.guestScope,
+  ])
+  .restrict("/.*", [
+    scopes.superScope,
+    scopes.adminScope,
+    scopes.consultantScope,
+    scopes.guestScope,
+  ])
   // add this after the guarded sub-urls
   .build();
 

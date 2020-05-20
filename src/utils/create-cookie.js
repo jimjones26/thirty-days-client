@@ -29,7 +29,7 @@ export const deleteRefreshCookie = () => {
   return cookie.serialize("refreshToken", null, {
     httpOnly: true,
     secure: secure,
-    expires: "Thu, 01 Jan 1970 00:00:01 GMT",
+    expires: Date.parse("Thu, 01 Jan 1970 00:00:00 UTC"),
     maxAge: 0,
     path: "/",
     same: "strict",
@@ -41,7 +41,7 @@ export const deleteAccessCookie = () => {
   return cookie.serialize("accessToken", null, {
     httpOnly: true,
     secure: secure,
-    expires: "Thu, 01 Jan 1970 00:00:01 GMT",
+    expires: Date.parse("Thu, 01 Jan 1970 00:00:00 UTC"),
     maxAge: 0,
     path: "/",
     same: "strict",

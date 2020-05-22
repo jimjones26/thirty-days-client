@@ -7,6 +7,9 @@ import {
 } from "../utils/create-cookie";
 
 export async function get(req, res, next) {
+  // get the path that was requested before the redirect
+  const requestedPath = req.query.path;
+
   // check for refresh cookie
   const refreshToken = req.cookies["refreshToken"];
 
@@ -24,7 +27,7 @@ export async function get(req, res, next) {
         createAccessCookie(tokens.accessToken),
         createRefreshCookie(tokens.refreshToken),
       ]);
-      let url = "/";
+      let url = requestedPath;
       let str = `Redirecting to ${url}`;
       res.writeHead(302, {
         Location: url,

@@ -22,8 +22,8 @@ polka() // You can also use Express
       const profile = token ? jwt.decode(token) : false;
       const options = {
         routes,
-        deny: () => {
-          res.writeHead(302, { Location: "/check-auth" });
+        deny: (path, scope) => {
+          res.writeHead(302, { Location: `/check-auth?path=${path}` });
           return res.end();
         },
         grant: () => {

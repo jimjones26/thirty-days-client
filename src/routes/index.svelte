@@ -13,4 +13,5 @@
   {#if $session.profile.scope.includes(scopes.adminScope)}WE HAVE AN ADMIN{/if}
   <p>You are logged in as {$session.profile.firstName}</p>
   <a href="/logout">logout</a>
+  <a href="/profile">profile</a>
 {/if}

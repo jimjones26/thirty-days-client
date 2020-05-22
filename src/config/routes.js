@@ -14,7 +14,7 @@ const routes = new Router()
   .unrestrict("/check-auth")
   .unrestrict("/verify-email")
   .unrestrict("/logout.*")
-  .restrict("/admin.*", [scopes.adminScope])
+  .restrict("/admin.*", [scopes.superScope, scopes.adminScope])
   .restrict("/profile.*", [
     scopes.superScope,
     scopes.adminScope,
